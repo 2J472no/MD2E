@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Is Pre-training Applicable to the Decoder for Dense Prediction?">
+  <meta name="keywords" content="Monocular depth estimation, efficiency">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Is Pre-training Applicable to the Decoder for Dense Prediction?</title>
+ 
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-2 publication-title">Is Pre-training Applicable to the Decoder for Dense Prediction?</h1>
+          <h1 class="title is-2 publication-title">(ICRA 2026)</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://2j472no.github.io">
+              Chao Ning</a><sup>1,2</sup>,</span>
+                        <span class="author-block">
+            <a href="https://ganwanshui.github.io">
+              Wanshui Gan</a>
+            <sup>1,2</sup>,</span>
+            <span class="author-block">
+              Weihao Xuan<sup>1,2</sup>,</span>
+
+            <span class="author-block">
+              <a href="https://naotoyokoya.com/">
+              Naoto Yokoya</a>
+              <sup>1,2,*</sup></span>
+          </div>
+
+          <div align="center" style="margin-bottom:20px;">
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>The University of Tokyo &nbsp;&nbsp;</span>
+            <span class="author-block"><sup>2</sup>RIKEN &nbsp;&nbsp;</span>
+          </div>
+          </div>
+
+          <!-- <h1 style="font-size:24px;font-weight:bold">arXiv</h1>
+          <div class="column has-text-centered"> -->
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <!-- <span class="link-block">
+                <a href="http://arxiv.org/abs/2408.11447"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span> -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2503.07637"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/2J472no/MDE.git"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 align="center"  class="title is-3">Demo</h2>
+        <div class="content has-text-centered">
+          <!-- <video poster='static/images/nuscenes_demo.jpg'
+                 id="replay-video"
+                 controls
+                 muted
+                 width="46%">
+            <source src="static/videos/nuscenes_demo.mp4"
+                    type="video/mp4">
+          </video> -->
+          <video id="replay-video" controls muted width="50%">
+            <source src="static/videos/feature.mp4" type="video/mp4">
+          </video>
+
+          <!-- <div align="center" style="margin-top:20px;" style="margin-bottom:80px;"> -->
+            <!-- <img style='height: auto; width:85%; object-fit: contain' src="static/images/bar.png" alt="overview_image"> -->
+          <!-- </div> -->
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-two-thirds">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+          Encoder-decoder networks are commonly used model architectures for dense prediction tasks, where the encoder typically employs a model pre-trained on upstream tasks, while the decoder is often either randomly initialized or pre-trained on other tasks. In this paper, we introduce ×Net, a novel framework that leverages a model pre-trained on upstream tasks as the decoder, fostering a ``pre-trained encoder × pre-trained decoder'' collaboration within the encoder-decoder network. ×Net effectively address the challenges associated with using pre-trained models in the decoding, applying the learned representations to enhance the decoding process. This enables the model to achieve more precise and high-quality dense predictions.
+By simply coupling the pre-trained encoder and pre-trained decoder, ×Net distinguishes itself as a highly promising approach. Remarkably, it achieves this without relying on decoding-specific structures or task-specific algorithms. Despite its streamlined design, ×Net outperforms advanced methods in tasks such as monocular depth estimation and semantic segmentation, achieving state-of-the-art performance particularly in monocular depth estimation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div align="center" style="margin-top:20px;" style="margin-bottom:80px;">
+  <img style='height: auto; width:55%; object-fit: contain' src="static/images/start.png" alt="o_image">
+</div>
+
+
+<section class="section">
+  <div class="container">
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-two-thirds">
+        <h2 class="title is-3">Method</h2>
+        <div class="content has-text-justified">
+          <p>
+            <b>Overview of the image classification model (left), encoder-decoder network (middle), and our ×Net (right).
+                The pre-trained model represents the commonly used hierarchical structure.
+        The channels are scaled with model size; detailed settings are available in our repository.
+         </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div align="center" style="margin-top:20px;" style="margin-bottom:80px;">
+<img style='height: auto; width:55%; object-fit: contain' src="static/images/Overview.png" alt="overview_image">
+</div>
+
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-two-thirds">
+        <h2 align="center"  class="title is-3">Main Results</h2>
+        <div class="content has-text-justified">
+          <p>
+            <!-- xxxxxxxxxxxxxxxxxxxxxxxxx. -->
+          </p>
+        </div>
+
+
+        <h3 align="center" class="title is-4">Quantitative comparison</h3>
+
+        <!-- <div class="content has-text-justified">
+            We experimented in compared with the mIoU and IoU metrics and showed the render speed comparison.
+        </div> -->
+
+        <div style="display:flex; gap:12px;">
+          <div style="flex:1; height:260px; display:flex; align-items:center; justify-content:center;">
+            <img style="max-width:100%; max-height:100%; object-fit:contain;" src="static/images/t2.png" alt="t2">
+          </div>
+          <div style="flex:1; height:260px; display:flex; align-items:center; justify-content:center;">
+            <img style="max-width:100%; max-height:100%; object-fit:contain;" src="static/images/t3.png" alt="t3">
+          </div>
+        </div>
+
+        <div align="center" style="margin-top:20px;"></div>
+
+        <div style="display:flex; gap:12px;">
+          <div style="flex:1; height:260px; display:flex; align-items:center; justify-content:center;">
+            <img style="max-width:100%; max-height:100%; object-fit:contain;" src="static/images/t4.png" alt="t4">
+          </div>
+          <div style="flex:1; height:260px; display:flex; align-items:center; justify-content:center;">
+            <img style="max-width:100%; max-height:100%; object-fit:contain;" src="static/images/t5.png" alt="t5">
+          </div>
+        </div>
+
+        <div align="center" style="margin-top:20px;"></div>
+
+        <div style="display:flex; gap:12px;">
+          <div style="flex:1; height:260px; display:flex; align-items:center; justify-content:center;">
+            <img style="max-width:100%; max-height:100%; object-fit:contain;" src="static/images/t6.png" alt="t6">
+          </div>
+          <div style="flex:1; height:260px; display:flex; align-items:center; justify-content:center;">
+            <img style="max-width:100%; max-height:100%; object-fit:contain;" src="static/images/t7.png" alt="t7">
+          </div>
+        </div>
+        
+        <div align="center" style="margin-top:20px;"></div>
+
+        <img style='height: auto; width:60%; object-fit: contain' src="static/images/t8.png" alt="t8">
+        <div align="center" style="margin-top:20px;"></div>
+ 
+        <h3 align="center" class="title is-4">Qualitative comparison</h3>
+
+        <!-- <div class="content has-text-justified">
+          We conduct depth estimation compared with all the methods in scale-aware metric.
+        </div> -->
+
+        <img style='height: auto; width:100%; object-fit: contain' src="static/images/f1.png" alt="f1">
+        <div align="center" style="margin-top:20px;"></div>
+        <img style='height: auto; width:100%; object-fit: contain' src="static/images/f2.png" alt="f2">
+        <div align="center" style="margin-top:20px;"></div>
+
+        <img style='height: auto; width:100%; object-fit: contain' src="static/images/f3.png" alt="f3">
+        <div align="center" style="margin-top:20px;"></div>
+        <img style='height: auto; width:100%; object-fit: contain' src="static/images/f4.png" alt="f4">
+        <div align="center" style="margin-top:20px;"></div>
+
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- <section class="section" id="BibTeX">
+  <div class="container content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>
+      @article{gan2024comprehensive,
+      title={A Comprehensive Framework for 3D Occupancy Estimation in Autonomous Driving},
+      author={Gan, Wanshui and Mo, Ningkai and Xu, Hongbin and Yokoya, Naoto},
+      journal={IEEE Transactions on Intelligent Vehicles},
+      year={2024},
+      publisher={IEEE}}
+
+      @article{gan2024gaussianocc,
+      title={LR²Depth: Large-Region Aggregation at Low Resolution for Efficient Monocular Depth Estimation},
+      author={Gan, Wanshui and Liu, Fang and Xu, Hongbin and Mo, Ningkai and Yokoya, Naoto},
+      journal={arXiv preprint arXiv:2408.11447},
+      year={2024}}
+</code></pre>
+  </div>
+</section> -->
+    
+
+
+</body>
+</html>
